@@ -3,6 +3,11 @@ import os
 from data import radii, material_id_to_name, volume_id_to_material_id
 cubit.init(['cubit', '-nojournal'])
 
+if not os.path.exists("h5m"):
+    os.makedirs("h5m")
+if not os.path.exists("cub5"):
+    os.makedirs("cub5")
+
 def generate_geometry(aniso, angle):
     cwd = os.getcwd()
     cmd = cubit.cmd

@@ -103,22 +103,15 @@ def generate_cad(angle, aniso):
 
 
 def plots(angle=None, aniso=None):
-    if angle is None and aniso is None:
-        for angle, aniso in get_avail():
-            model = generate_cad(angle, aniso)
-            model.export_to_model_xml(remove_surfs=True)
-            openmc.plot_geometry()
-        model = generate_csg()
-        model.export_to_model_xml()
-        openmc.plot_geometry()
-    else:
+    if not os.path.exists("plots"):
+        os.makedirs("plots")
+    for angle, aniso in get_avail():
         model = generate_cad(angle, aniso)
         model.export_to_model_xml(remove_surfs=True)
         openmc.plot_geometry()
-        fig, ax = plt.subplots(1, 1)
-        image = Image.open(f"plots/material_angle_{angle}_aniso_{aniso}.png")
-        ax.imshow(image, extent=[-10, 10, -10, 10])
-        plt.show()
+    model = generate_csg()
+    model.export_to_model_xml()
+    openmc.plot_geometry()
 
 def run():
     results = []
